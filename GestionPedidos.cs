@@ -4,19 +4,14 @@ public static class GestionPedidos
     {
         var pedido = ObtenerPedido(listaPedidos);
         var cadete = ObtenerCadete(cadeteria.ListaCadetes);
-        cadete.ListaPedidos.Add(pedido);
+        pedido.Cadete = cadete;
     }
 
     public static void ReasignarPedido(Cadeteria cadeteria, List<Pedido> listaPedidos)
     {
         var pedido = ObtenerPedido(listaPedidos);
-        Console.WriteLine("\nCadete anterior:");
-        var cadeteAnterior = ObtenerCadete(cadeteria.ListaCadetes);
-        Console.WriteLine("\nCadete nuevo:");
-        var cadeteNuevo = ObtenerCadete(cadeteria.ListaCadetes);
-
-        cadeteAnterior.ListaPedidos.Remove(pedido);
-        cadeteNuevo.ListaPedidos.Add(pedido);
+        var cadete = ObtenerCadete(cadeteria.ListaCadetes);
+        pedido.Cadete = cadete;
     }
 
     public static Pedido AltaDePedido(int nro)

@@ -1,5 +1,15 @@
 public class AccesoCSV : AccesoADatos
 {
+
+    private string rutaCadeteria;
+    private string rutaCadetes;
+
+    public AccesoCSV()
+    {
+        rutaCadeteria = "cadeteria.csv";
+        rutaCadetes = "cadetes.csv";
+    }
+
     public override Cadeteria CargarDatos()
     {
         var cadeteria = CargarCadeteria();
@@ -19,6 +29,7 @@ public class AccesoCSV : AccesoADatos
     public override void CargarCadetes(List<Cadete> listaCadetes)
     {
         var lineas = File.ReadLines("cadetes.csv").ToList();
+        
         for (int i = 0; i < lineas.Count(); i++)
         {
             string[] datos = lineas[i].Split(",");

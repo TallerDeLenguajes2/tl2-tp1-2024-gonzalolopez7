@@ -1,67 +1,74 @@
-public static class GestionPedidos
+public class GestionPedidos
 {
-    public static void AsignarPedido(Cadeteria cadeteria, List<Pedido> listaPedidos)
+    public bool AsignarPedido(Cadeteria cadeteria, int nroPedido, int idCadete)
     {
-        var pedido = ObtenerPedido(listaPedidos);
-        var cadete = ObtenerCadete(cadeteria.ListaCadetes);
-        pedido.Cadete = cadete;
-    }
-
-    public static void ReasignarPedido(Cadeteria cadeteria, List<Pedido> listaPedidos)
-    {
-        var pedido = ObtenerPedido(listaPedidos);
-        var cadete = ObtenerCadete(cadeteria.ListaCadetes);
-        pedido.Cadete = cadete;
-    }
-
-    public static Pedido AltaDePedido(int nro)
-    {
-        Console.WriteLine("\n~~ NUEVO PEDIDO ~~");
-        Console.WriteLine("Ingresar observaciones: ");
-        string obs = Console.ReadLine();
-        var cliente = new Cliente();
-
-        return new Pedido(nro, obs, cliente);
-    }
-
-    public static void CambiarEstadoDePedido(List<Pedido> listaPedidos)
-    {
-        ObtenerPedido(listaPedidos).Estado = Estado.Entregado;
-    }
-
-    private static Cadete ObtenerCadete(List<Cadete> listaCadetes)
-    {
-        int idCadete; bool b;
-
-        Console.WriteLine("Id del cadete: ");
-        do
-        {
-            b = int.TryParse(Console.ReadLine(), out idCadete);
-            if (idCadete < 1 || idCadete > listaCadetes.Count() || !b)
+        if(cadeteria.ListaPedidos.Count() != 0)
+            if (cadeteria.ListaPedidos.Find(x => x.Nro == nroPedido) != null && cadeteria.ListaCadetes.Find(x => x.Id == idCadete) != null)
             {
-                Console.WriteLine("opcion no valida, intentar nuevamente");
-                b = false;
-            }
-        } while (!b);
-
-        return listaCadetes.Where(x => x.Id == idCadete).First();
+                var pedido = ObtenerPedido(cadeteria.ListaPedidos, nroPedido);
+                var cadete = ObtenerCadete(cadeteria.ListaCadetes, idCadete);
+                pedido.Cadete = cadete;
+                return true;
+            } else
+                return false;
+        else
+            return false;
     }
 
-    private static Pedido ObtenerPedido(List<Pedido> listaPedidos)
+    public bool ReasignarPedido(Cadeteria cadeteria, int nroPedido, int idCadete)
     {
-        int nroPedido; bool b;
-
-        Console.WriteLine("Numero de pedido: ");
-        do
+        if (cadeteria.ListaPedidos.Count() != 0)
         {
-            b = int.TryParse(Console.ReadLine(), out nroPedido);
-            if (nroPedido < 0 || nroPedido > listaPedidos.Count()-1 || !b)
+            Pedido pedido = cadeteria.ListaPedidos.Find(x => x.Nro == nroPedido);
+            Cadete cadete = cadeteria.ListaCadetes.Find(x => x.Id == idCadete);
+            if (pedido != null && cadete != null && pedido.Estado == Estado.Pendiente && pedido.Cadete != null)
+                if (pedido.Cadete != cadete)
+                {
+                    pedido.Cadete = cadete;
+                    return true;
+                } else
+                    return false;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    public Pedido AltaDePedido(List<Pedido> listaPedidos, int nro, string obs, string nombre, string telefono, string direccion, string datosReferenciaDireccion)
+    {
+        if (listaPedidos.Find(x => x.Nro == nro) != null)
+            return null;
+        else
+        {
+            var cliente = new Cliente(nombre, telefono, direccion, datosReferenciaDireccion);
+            return new Pedido(nro, obs, cliente);
+        }
+    }
+
+    public bool CambiarEstadoDePedido(List<Pedido> listaPedidos, int nroPedido)
+    {
+        if (listaPedidos.Count() != 0)
+        {
+            Pedido pedido = ObtenerPedido(listaPedidos, nroPedido);
+            if (pedido != null && pedido.Estado == Estado.Pendiente)
             {
-                Console.WriteLine("opcion no valida, intentar nuevamente");
-                b = false;
-            }
-        } while (!b);
-        
-        return listaPedidos.Where(x => x.Nro == nroPedido).First();
+                ObtenerPedido(listaPedidos, nroPedido).Estado = Estado.Entregado;
+                return true;
+            } else
+                return false;
+        } else
+            return false;
+    }
+
+    private Cadete ObtenerCadete(List<Cadete> listaCadetes, int idCadete)
+    {
+        return listaCadetes.Find(x => x.Id == idCadete);
+        // devuelve null si no encuentra un cadete con el id ingresado
+    }
+
+    private Pedido ObtenerPedido(List<Pedido> listaPedidos, int nroPedido)
+    {
+        return listaPedidos.Find(x => x.Nro == nroPedido);
+        // devuelve null si no encuentra un pedido con el numero ingresado
     }
 }

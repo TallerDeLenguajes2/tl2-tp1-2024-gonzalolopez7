@@ -19,7 +19,7 @@ public class AccesoCSV : AccesoADatos
 
     public override Cadeteria CargarCadeteria()
     {
-        var linea = File.ReadAllText("cadeteria.csv");
+        var linea = File.ReadAllText(rutaCadeteria);
         string[] datos = linea.Split(",");
         var cadeteria = new Cadeteria(datos[0], datos[1]);
 
@@ -28,12 +28,13 @@ public class AccesoCSV : AccesoADatos
 
     public override void CargarCadetes(List<Cadete> listaCadetes)
     {
-        var lineas = File.ReadLines("cadetes.csv").ToList();
+        var lineas = File.ReadLines(rutaCadetes).ToList();
         
         for (int i = 0; i < lineas.Count(); i++)
         {
             string[] datos = lineas[i].Split(",");
-            listaCadetes.Add(new Cadete(Convert.ToInt32(datos[0]), datos[1], datos[2], datos[3]));
+            var nuevoCadete = new Cadete(Convert.ToInt32(datos[0]), datos[1], datos[2], datos[3]);
+            listaCadetes.Add(nuevoCadete);
         }
     }
 }

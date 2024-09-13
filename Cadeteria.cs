@@ -10,7 +10,7 @@ public class Cadeteria
         this.nombre = nombre;
         this.telefono = telefono;
         listaPedidos = new List<Pedido>();
-        CargarCadetes();
+        listaCadetes = new List<Cadete>();
     }
 
     public string Nombre { get => nombre; set => nombre = value; }
@@ -29,13 +29,21 @@ public class Cadeteria
         }
     }
 
-    public double JornalACobrar(int idCadete)
+    public double? JornalACobrar(int idCadete)
     {
-        return listaPedidos.Where(x => x.Cadete.Id == idCadete && x.Estado == Estado.Entregado).Count() * 500;
+        if (listaCadetes.Find(x => x.Id == idCadete) != null)
+            return listaPedidos.Where(x => x.Cadete.Id == idCadete && x.Estado == Estado.Entregado).Count() * 500;
+        else
+            return null;
     }
 
-    public void AsignarCadeteAPedido(int idCadete, int nroPedido)
+    public bool AsignarCadeteAPedido(int idCadete, int nroPedido)
     {
-        listaPedidos.Where(x => x.Nro == nroPedido).First().Cadete = listaCadetes.Where(x => x.Id == idCadete).First();
+        if (listaCadetes.Find(x => x.Id == idCadete) != null && listaPedidos.Find(x => x.Nro == nroPedido) != null)
+        {
+            listaPedidos.Find(x => x.Nro == nroPedido).Cadete = listaCadetes.Find(x => x.Id == idCadete);
+            return true;
+        } else
+            return false;
     }
 }

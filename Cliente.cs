@@ -5,17 +5,12 @@ public class Cliente
     string telefono;
     string datosReferenciaDireccion;
 
-    public Cliente()
+    public Cliente(string nombre, string direccion, string telefono, string datosReferenciaDireccion)
     {
-        Console.WriteLine("\n~~ DATOS CLIENTE ~~");
-        Console.WriteLine("Nombre: ");
-        nombre = Console.ReadLine();
-        Console.WriteLine("Direccion: ");
-        direccion = Console.ReadLine();
-        Console.WriteLine("Telefono: ");
-        telefono = Console.ReadLine();
-        Console.WriteLine("Datos de referencia de direccion: ");
-        datosReferenciaDireccion = Console.ReadLine();
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.datosReferenciaDireccion = datosReferenciaDireccion;
     }
 
     public string Nombre { get => nombre; set => nombre = value; }

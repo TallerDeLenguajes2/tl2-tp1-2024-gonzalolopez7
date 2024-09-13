@@ -20,18 +20,14 @@ public class Pedido
     public Estado Estado { get => estado; set => estado = value; }
     public Cadete Cadete { get => cadete; set => cadete = value; }
 
-    public void VerDireccionCliente()
+    public string VerDireccionCliente()
     {
-        Console.WriteLine($"~~ PEDIDO {nro} ~~");
-        Console.WriteLine($"Direccion: {cliente.Direccion}");
-        Console.WriteLine($"Datos de referencia de direccion: {cliente.DatosReferenciaDireccion}");
+        return $"Direccion: {cliente.Direccion} - Datos de referencia: {cliente.DatosReferenciaDireccion}";
     }
 
-    public void VerDatosCliente()
+    public string VerDatosCliente()
     {
-        Console.WriteLine($"~~ PEDIDO {nro} ~~");
-        Console.WriteLine($"Cliente: {cliente.Nombre}");
-        Console.WriteLine($"Telefono: {cliente.Telefono}");
+        return $"Cliente: {cliente.Nombre} - Telefono: {cliente.Telefono}";
     }
 }
 

@@ -22,7 +22,9 @@ if (opcion == 1)
 {
     datos = new AccesoCSV();
 }
+
 Cadeteria cadeteria = datos.CargarDatos();
+var gestion = new GestionPedidos();
 
 // numero usado para los id de los pedidos
 int nro = 0;
@@ -45,32 +47,103 @@ do
         }
     } while (!b);
 
+    int nroPedido, idCadete; bool estado;
     switch (opcion)
     {
         case 1:
-            cadeteria.ListaPedidos.Add(GestionPedidos.AltaDePedido(nro));
-            nro++;
+            Console.WriteLine("Observacion:");
+            string obs = Console.ReadLine();
+            Console.WriteLine("Nombre del cliente:");
+            string nombre = Console.ReadLine();
+            Console.WriteLine("Telefono:");
+            string telefono = Console.ReadLine();
+            Console.WriteLine("Direccion:");
+            string direccion = Console.ReadLine();
+            Console.WriteLine("Datos de referencia:");
+            string datosRef = Console.ReadLine();
+            var nuevoPedido = gestion.AltaDePedido(cadeteria.ListaPedidos, nro, obs, nombre, telefono, direccion, datosRef);
+            if (nuevoPedido != null)
+            {
+                cadeteria.ListaPedidos.Add(nuevoPedido);
+                Console.WriteLine("\naccion completada\n");
+                nro++;
+            }
+            else
+                Console.WriteLine("\nerror\n");
             break;
         
         case 2:
-            if (cadeteria.ListaPedidos.Count() != 0)
-                GestionPedidos.AsignarPedido(cadeteria, cadeteria.ListaPedidos);
+            Console.WriteLine("Numero de pedido:");
+            do
+            {
+                b = int.TryParse(Console.ReadLine(), out nroPedido);
+                if (!b)
+                {
+                    Console.WriteLine("opcion no valida, intentar nuevamente");
+                    b = false;
+                }
+            } while (!b);
+            Console.WriteLine("Id cadete:");
+            do
+            {
+                b = int.TryParse(Console.ReadLine(), out idCadete);
+                if (!b)
+                {
+                    Console.WriteLine("opcion no valida, intentar nuevamente");
+                    b = false;
+                }
+            } while (!b);
+            estado = gestion.AsignarPedido(cadeteria, nroPedido, idCadete);
+            if (estado)
+                Console.WriteLine("\naccion completada\n");
             else
-                Console.WriteLine("No se puede asignar un pedido porque no hay ningun pedido pendiente");
+                Console.WriteLine("\nerror\n");
             break;
         
         case 3:
-            if (cadeteria.ListaPedidos.Count() != 0)
-                GestionPedidos.CambiarEstadoDePedido(cadeteria.ListaPedidos);
+            Console.WriteLine("Numero de pedido:");
+            do
+            {
+                b = int.TryParse(Console.ReadLine(), out nroPedido);
+                if (!b)
+                {
+                    Console.WriteLine("opcion no valida, intentar nuevamente");
+                    b = false;
+                }
+            } while (!b);
+            estado = gestion.CambiarEstadoDePedido(cadeteria.ListaPedidos, nroPedido);
+            if (estado)
+                Console.WriteLine("\naccion completada\n");
             else
-                Console.WriteLine("No se puede cambiar el estado de un pedido porque no hay ningun pedido pendiente");
+                Console.WriteLine("\nerror\n");
             break;
         
         case 4:
-            if (cadeteria.ListaPedidos.Count() != 0)
-                GestionPedidos.ReasignarPedido(cadeteria, cadeteria.ListaPedidos);
+            Console.WriteLine("Numero de pedido:");
+            do
+            {
+                b = int.TryParse(Console.ReadLine(), out nroPedido);
+                if (!b)
+                {
+                    Console.WriteLine("opcion no valida, intentar nuevamente");
+                    b = false;
+                }
+            } while (!b);
+            Console.WriteLine("Id cadete:");
+            do
+            {
+                b = int.TryParse(Console.ReadLine(), out idCadete);
+                if (!b)
+                {
+                    Console.WriteLine("opcion no valida, intentar nuevamente");
+                    b = false;
+                }
+            } while (!b);
+            estado = gestion.ReasignarPedido(cadeteria, nroPedido, idCadete);
+            if (estado)
+                Console.WriteLine("\naccion completada\n");
             else
-                Console.WriteLine("No se puede reasignar un pedido porque no hay ningun pedido pendiente");
+                Console.WriteLine("\nerror\n");
             break;
 
         default:

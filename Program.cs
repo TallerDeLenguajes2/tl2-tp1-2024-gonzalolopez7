@@ -61,7 +61,7 @@ do
             string direccion = Console.ReadLine();
             Console.WriteLine("Datos de referencia:");
             string datosRef = Console.ReadLine();
-            var nuevoPedido = gestion.AltaDePedido(cadeteria.ListaPedidos, nro, obs, nombre, telefono, direccion, datosRef);
+            var nuevoPedido = gestion.DarAltaDePedido(cadeteria.ListaPedidos, nro, obs, nombre, telefono, direccion, datosRef);
             if (nuevoPedido != null)
             {
                 cadeteria.ListaPedidos.Add(nuevoPedido);

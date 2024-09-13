@@ -34,7 +34,7 @@ public class GestionPedidos
             return false;
     }
 
-    public Pedido AltaDePedido(List<Pedido> listaPedidos, int nro, string obs, string nombre, string telefono, string direccion, string datosReferenciaDireccion)
+    public Pedido DarAltaDePedido(List<Pedido> listaPedidos, int nro, string obs, string nombre, string telefono, string direccion, string datosReferenciaDireccion)
     {
         if (listaPedidos.Find(x => x.Nro == nro) != null)
             return null;

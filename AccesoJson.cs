@@ -14,21 +14,30 @@ public class AccesoJson : AccesoADatos
     public override Cadeteria CargarDatos()
     {
         Cadeteria cadeteria = CargarCadeteria();
-        CargarCadetes(cadeteria.ListaCadetes);
+        if(cadeteria != null)
+            CargarCadetes(cadeteria.ListaCadetes);
+        
         return cadeteria;
     }
 
     public override Cadeteria CargarCadeteria()
     {
-        var stringJson = File.ReadAllText(rutaCadeteria);
-        Cadeteria cadeteria = JsonSerializer.Deserialize<Cadeteria>(stringJson);
+        if(File.Exists(rutaCadeteria))
+        {
+            var stringJson = File.ReadAllText(rutaCadeteria);
+            Cadeteria cadeteria = JsonSerializer.Deserialize<Cadeteria>(stringJson);
+            return cadeteria;
+        }
+        return null;
 
-        return cadeteria;
     }
 
     public override void CargarCadetes(List<Cadete> listaCadetes)
     {
-        var stringJson = File.ReadAllText(rutaCadetes);
-        listaCadetes = JsonSerializer.Deserialize<List<Cadete>>(stringJson);
+        if(File.Exists(rutaCadetes))
+        {
+            var stringJson = File.ReadAllText(rutaCadetes);
+            listaCadetes = JsonSerializer.Deserialize<List<Cadete>>(stringJson);
+        }
     }
 }
